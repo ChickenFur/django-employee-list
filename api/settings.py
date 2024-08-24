@@ -10,7 +10,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
+import os
+from dotenv import load_dotenv
 from pathlib import Path
+# Load environment variables from .env file
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,7 +29,7 @@ SECRET_KEY = 'django-insecure-=cldztbc4jg&xl0!x673!*v2_=p$$eu)=7*f#d0#zs$44xx-h^
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', '.vercel.app']
+ALLOWED_HOSTS = ['127.0.0.1', '.vercel.app', "localhost"]
 
 
 # Application definition
@@ -37,7 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'example'
+    'rest_framework',
+    'teamMembers',
 ]
 
 MIDDLEWARE = [
@@ -76,7 +81,26 @@ WSGI_APPLICATION = 'api.wsgi.app'
 # Note: Django modules for using databases are not support in serverless
 # environments like Vercel. You can use a database over HTTP, hosted elsewhere.
 
-DATABASES = {}
+DATABASES = {
+  'default': {
+    'ENGINE' : 'django.db.backends.postgresql',
+    'NAME' :  os.getenv('SUPABASE_DB_NAME'),
+    'USER': os.getenv('SUPABASE_DB_USER'),
+    'PASSWORD': os.environ.get('SUPABASE_PW'),
+    'HOST' : os.environ.get('SUPABASE_HOST'),
+    'PORT': os.environ.get('SUPABASE_PORT'), 
+    'OPTIONS': {
+        'sslmode': 'require',
+    }          # download this from database/settings and put in your main app folder
+    }
+}
+
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    ),
+}
 
 
 # Password validation
