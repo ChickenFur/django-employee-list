@@ -23,6 +23,18 @@ const TeamMemberForm = () => {
     setMember({ ...member, [name]: value });
   };
 
+  const handleDelete = () => {
+    const apiURL = process.env.NODE_ENV === 'development' ? "http://localhost:8000" : "";
+    const memberId = location.pathname.split('/').pop();
+    const csrfToken = getCookie('csrftoken');
+    fetch(`${apiURL}/api/team/delete/${memberId}/`, {
+      method: "DELETE",
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': csrfToken,
+      }
+    }).then(() => navigate('/'));
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
     const apiURL = process.env.NODE_ENV === 'development' ? "http://localhost:8000" : "";
@@ -42,7 +54,7 @@ const TeamMemberForm = () => {
 
   return (
     <div className="add-page">
-      <h1>Add page</h1>
+      <h1>{isAddMode ? "Add" : "Edit"} page</h1>
       <div className="form-container">
         <h2>Add a team member</h2>
         <p>Set email, location and role.</p>
@@ -65,7 +77,11 @@ const TeamMemberForm = () => {
             </label>
           </div>
           
-          <button type="submit" className="save-button">Save</button>
+          
+          <div className="button-container">
+            {!isAddMode && <button type="button" className="delete-button" onClick={handleDelete}>Delete</button>}
+            <button type="submit" className="save-button">Save</button>
+          </div>
         </form>
       </div>
       <style jsx>{`
@@ -98,6 +114,11 @@ const TeamMemberForm = () => {
           display: block;
           margin-bottom: 10px;
         }
+          .button-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px; /* Optional: Add some space above the buttons */
+          }
         .save-button {
           background-color: #007bff;
           color: white;
@@ -105,6 +126,18 @@ const TeamMemberForm = () => {
           padding: 10px 20px;
           border-radius: 4px;
           cursor: pointer;
+        }
+        .delete-button {
+          background-color: white;
+          color: red;
+          padding: 10px 20px;
+          border-radius: 4px;
+          border-width: 1px;
+          cursor: pointer;
+        }
+        .delete-button:hover {
+           background-color: #c82333;
+           color: white;
         }
       `}</style>
     </div>

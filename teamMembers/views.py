@@ -31,3 +31,12 @@ def putData(request):
   if serializer.is_valid():
     serializer.save()
   return Response(serializer.data)
+
+@api_view(['DELETE'])
+def deleteData(request, id):
+  try:
+    app = TeamMember.objects.get(id=id)
+    app.delete()
+    return Response('Item deleted successfully')
+  except TeamMember.DoesNotExist:
+      return Response('Item not found', status=404)
