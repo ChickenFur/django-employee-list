@@ -21,7 +21,7 @@ You can setup a supabase free db quickly here:
 
 https://supabase.com/dashboard/projects
 
-Get all the secrets from teh settings page of your new db.
+Get all the secrets from the settings page of your new db.
 
 ```
 SUPABASE_HOST=
@@ -63,9 +63,12 @@ npm start
 
 This will run the react app on localhost:3000 and will interact with your local django server at localhost:8000
 
-To build for deployment from the front end folder
+# Vercel Deploy
+
+To build for deployment prepare the react app and collect all static files
 
 ```
+cd frontend
 npm run build
 ```
 
