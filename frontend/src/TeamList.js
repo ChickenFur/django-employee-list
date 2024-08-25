@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 const TeamList = () => {
-  const [teamMembers, setTeamMembers] = useState([]);
 
-  
+   const avatarUrl = process.env.NODE_ENV === 'development' ? "/default-avatar.png" : "/static/default-avatar.png"
+
+  const [teamMembers, setTeamMembers] = useState([]);
   useEffect(() => {
     const apiURL =  process.env.NODE_ENV === 'development' ? "http://localhost:8000" : ""
     fetch(`${apiURL}/api/team/`)
@@ -24,7 +25,7 @@ const TeamList = () => {
         {teamMembers.map(member => (
           <li key={member.id} className="team-member-item">
             <Link to={`/team/${member.id}`} className="team-member-link" >
-              <img src={member.avatar || '/static/default-avatar.png'} alt={`${member.firstName} ${member.lastName}`} className="avatar" />
+              <img src={member.avatar || avatarUrl} alt={`${member.firstName} ${member.lastName}`} className="avatar" />
               <div className="member-info">
                 <strong>{member.firstName} {member.lastName}{member.role === 'admin' && '  (admin)'} </strong>
                 <p>{member.phone}</p>
