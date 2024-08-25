@@ -88,4 +88,4 @@ git push origin main
 
 This serves the static files with the Django server for simplicity.
 
-In a prod app I would reccomend serving your React APP from your favorite CDN
+In a prod app I would recommend serving your React APP from your favorite CDN
