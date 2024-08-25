@@ -3,10 +3,6 @@
     {
       "src": "api/wsgi.py",
       "use": "@vercel/python"
-    },
-    {
-      "src": "serve-react.js",
-      "use": "@vercel/node"
     }
   ],
   "routes": [
@@ -20,7 +16,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "api/serve-react.js"
+      "dest": "api/wsgi.py"
     }
   ]
 }
