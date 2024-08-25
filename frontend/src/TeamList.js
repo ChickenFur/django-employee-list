@@ -24,7 +24,7 @@ const TeamList = () => {
         {teamMembers.map(member => (
           <li key={member.id} className="team-member-item">
             <Link to={`/team/${member.id}`} className="team-member-link" >
-              <img src={member.avatar || '/default-avatar.png'} alt={`${member.firstName} ${member.lastName}`} className="avatar" />
+              <img src={member.avatar || '/static/default-avatar.png'} alt={`${member.firstName} ${member.lastName}`} className="avatar" />
               <div className="member-info">
                 <strong>{member.firstName} {member.lastName}{member.role === 'admin' && '  (admin)'} </strong>
                 <p>{member.phone}</p>
