@@ -8,7 +8,7 @@ Built using django's rest framwork
 
 # Front End
 
-React Act
+React App located in /frontend folder
 
 # To run locally
 
@@ -16,6 +16,12 @@ Clone
 
 Setup a .env file to connect to a postgres DB
 This is done so you can deploy to vercel with their serveless django product
+
+You can setup a supabase free db quickly here:
+
+https://supabase.com/dashboard/projects
+
+Get all the secrets from teh settings page of your new db.
 
 ```
 SUPABASE_HOST=
@@ -40,7 +46,10 @@ python manage.py migrate
 ```
 
 Run the Python Server
+
+```
 python manage.py runserver
+```
 
 # React App
 
@@ -52,10 +61,22 @@ cd frontend
 npm start
 ```
 
+This will run the react app on localhost:3000 and will interact with your local django server at localhost:8000
+
 To build for deployment
 
 ```
 npm run build
 ```
 
-This serves the static files with the Django server for simplicity. In a prod app I would deploy the bundle files to file serving service like File.io, CloudFlare or AWS so they are served from a server closer to the user.
+Collect those static files and server up with django on vercel:
+
+```
+python manage.py collectstatic
+```
+
+For a Vercel deploy just committ and push up all your changes
+
+This serves the static files with the Django server for simplicity.
+
+In a prod app I would reccomend serving your React APP from your favorite CDN
