@@ -3,6 +3,7 @@ from . import views
 
 urlpatterns = [
   path('', views.getData),
-  path('post/', views.postData),  
+  path('add/', views.postData),  
   path('put/', views.putData),
+  path('<int:id>/', views.getTeamMemberById),
 ]

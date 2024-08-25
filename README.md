@@ -1,106 +1,61 @@
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fexamples%2Ftree%2Fmain%2Fpython%2Fdjango&demo-title=Django%20%2B%20Vercel&demo-description=Use%20Django%204%20on%20Vercel%20with%20Serverless%20Functions%20using%20the%20Python%20Runtime.&demo-url=https%3A%2F%2Fdjango-template.vercel.app%2F&demo-image=https://assets.vercel.com/image/upload/v1669994241/random/django.png)
+# Team List
 
-# Django + Vercel
+see a working example at: https://django-employee-list.vercel.app/
 
-This example shows how to use Django 4 on Vercel with Serverless Functions using the [Python Runtime](https://vercel.com/docs/concepts/functions/serverless-functions/runtimes/python).
+# Back End
 
-## Demo
+Built using django's rest framwork
 
-https://django-template.vercel.app/
+# Front End
 
-## How it Works
+React Act
 
-Our Django application, `example` is configured as an installed application in `api/settings.py`:
+# To run locally
 
-```python
-# api/settings.py
-INSTALLED_APPS = [
-    # ...
-    'example',
-]
+Clone
+
+Setup a .env file to connect to a postgres DB
+This is done so you can deploy to vercel with their serveless django product
+
+```
+SUPABASE_HOST=
+SUPABASE_PW=
+SUPABASE_DB_USER=
+SUPABASE_DB_NAME=
+SUPABASE_PORT=
+DJANGO_SECRET_KEY=
 ```
 
-We allow "\*.vercel.app" subdomains in `ALLOWED_HOSTS`, in addition to 127.0.0.1:
+Install all your dependencies
 
-```python
-# api/settings.py
-ALLOWED_HOSTS = ['127.0.0.1', '.vercel.app']
+```
+pip install -r requirements.txt
 ```
 
-The `wsgi` module must use a public variable named `app` to expose the WSGI application:
+Setup Migrations and Tables on your DB
 
-```python
-# api/wsgi.py
-app = get_wsgi_application()
+```
+python manage.py makemigrations
+python manage.py migrate
 ```
 
-The corresponding `WSGI_APPLICATION` setting is configured to use the `app` variable from the `api.wsgi` module:
-
-```python
-# api/settings.py
-WSGI_APPLICATION = 'api.wsgi.app'
-```
-
-There is a single view which renders the current time in `example/views.py`:
-
-```python
-# example/views.py
-from datetime import datetime
-
-from django.http import HttpResponse
-
-
-def index(request):
-    now = datetime.now()
-    html = f'''
-    <html>
-        <body>
-            <h1>Hello from Vercel!</h1>
-            <p>The current time is { now }.</p>
-        </body>
-    </html>
-    '''
-    return HttpResponse(html)
-```
-
-This view is exposed a URL through `example/urls.py`:
-
-```python
-# example/urls.py
-from django.urls import path
-
-from example.views import index
-
-
-urlpatterns = [
-    path('', index),
-]
-```
-
-Finally, it's made accessible to the Django server inside `api/urls.py`:
-
-```python
-# api/urls.py
-from django.urls import path, include
-
-urlpatterns = [
-    ...
-    path('', include('example.urls')),
-]
-```
-
-This example uses the Web Server Gateway Interface (WSGI) with Django to enable handling requests on Vercel with Serverless Functions.
-
-## Running Locally
-
-```bash
+Run the Python Server
 python manage.py runserver
+
+# React App
+
+The React app is in the frontend subfolder
+You can edit it in dev mode
+
+```
+cd frontend
+npm start
 ```
 
-Your Django application is now available at `http://localhost:8000`.
+To build for deployment
 
-## One-Click Deploy
+```
+npm run build
+```
 
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=vercel-examples):
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fexamples%2Ftree%2Fmain%2Fpython%2Fdjango&demo-title=Django%20%2B%20Vercel&demo-description=Use%20Django%204%20on%20Vercel%20with%20Serverless%20Functions%20using%20the%20Python%20Runtime.&demo-url=https%3A%2F%2Fdjango-template.vercel.app%2F&demo-image=https://assets.vercel.com/image/upload/v1669994241/random/django.png)
+This serves the static files with the Django server for simplicity. In a prod app I would deploy the bundle files to file serving service like File.io, CloudFlare or AWS so they are served from a server closer to the user.
