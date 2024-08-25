@@ -20,5 +20,5 @@ from . import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/team/', include('teamMembers.urls')),
-    re_path(r'^.*$', views.index, name='index'),  # Catch-all pattern to serve React app
+    re_path(r'^(?!admin|api).*$', views.index, name='index'),  # Catch-all pattern to serve React app
 ]
