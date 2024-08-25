@@ -75,7 +75,7 @@ Collect those static files and server up with django on vercel:
 python manage.py collectstatic
 ```
 
-For a Vercel deploy just committ and push up all your changes
+For a Vercel deploy commit and push up all your files
 
 This serves the static files with the Django server for simplicity.
 
