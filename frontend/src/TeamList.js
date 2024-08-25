@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import TeamMember from './TeamMember';
 
 const TeamList = () => {
   const [teamMembers, setTeamMembers] = useState([]);
