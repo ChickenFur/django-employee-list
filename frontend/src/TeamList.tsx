@@ -1,43 +1,53 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { Member } from "./TeamMemberTypes.tsx";
+import API from "./API.tsx";
 
-const TeamList = () => {
+const TeamList: React.FC = () => {
+  const [teamMembers, setTeamMembers] = useState<Member[]>([]);
 
-   const avatarUrl = process.env.NODE_ENV === 'development' ? "/default-avatar.png" : "/static/default-avatar.png"
-
-  const [teamMembers, setTeamMembers] = useState([]);
   useEffect(() => {
-    const apiURL =  process.env.NODE_ENV === 'development' ? "http://localhost:8000" : ""
-    fetch(`${apiURL}/api/team/`)
-      .then(response => response.json()).catch(err => {
-        console.log(err)
-      })
-      .then(data => setTeamMembers(data));
+    API.teamMember
+      .get()
+      .then((response) => response.json())
+      .then((data: Member[]) => setTeamMembers(data))
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   return (
     <div className="list-page">
-    <h1>List page</h1>
-    <div className="team-members-container">
-      <h2>Team members</h2>
-      <p>You have {teamMembers.length} team members.</p>
-      <ul className="team-member-list">
-        {teamMembers.map(member => (
-          <li key={member.id} className="team-member-item">
-            <Link to={`/team/${member.id}`} className="team-member-link" >
-              <img src={member.avatar || avatarUrl} alt={`${member.firstName} ${member.lastName}`} className="avatar" />
-              <div className="member-info">
-                <strong>{member.firstName} {member.lastName}{member.role === 'admin' && '  (admin)'} </strong>
-                <p>{member.phone}</p>
-                <p>{member.email}</p>
-              </div>
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </div>
-    <Link to="/team/add" className="add-member-button">+</Link>
-    <style jsx>{`
+      <h1>List page</h1>
+      <div className="team-members-container">
+        <h2>Team members</h2>
+        <p>You have {teamMembers.length} team members.</p>
+        <ul className="team-member-list">
+          {teamMembers.map((member) => (
+            <li key={member.id} className="team-member-item">
+              <Link to={`/team/${member.id}`} className="team-member-link">
+                <img
+                  src={API.teamMember.avatarUrl}
+                  alt={`${member.firstName} ${member.lastName}`}
+                  className="avatar"
+                />
+                <div className="member-info">
+                  <strong>
+                    {member.firstName} {member.lastName}
+                    {member.role === "admin" && "  (admin)"}{" "}
+                  </strong>
+                  <p>{member.phone}</p>
+                  <p>{member.email}</p>
+                </div>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <Link to="/team/add" className="add-member-button">
+        +
+      </Link>
+      <style>{`
         .list-page {
           font-family: Arial, sans-serif;
           max-width: 600px;
@@ -46,7 +56,8 @@ const TeamList = () => {
           position: relative;
         }
 
-        h1, h2 {
+        h1,
+        h2 {
           margin-bottom: 10px;
         }
 
@@ -54,7 +65,7 @@ const TeamList = () => {
           background-color: #fff;
           border-radius: 8px;
           padding: 20px;
-          box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .team-member-list {
@@ -116,8 +127,7 @@ const TeamList = () => {
           background-color: #f0f0f0;
         }
       `}</style>
-  </div>
-  
+    </div>
   );
 };
 

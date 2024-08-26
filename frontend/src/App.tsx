@@ -1,7 +1,7 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import TeamList from './TeamList';
-import TeamMemberForm from './TeamMemberForm';
+import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import TeamList from "./TeamList.tsx";
+import TeamMemberForm from "./TeamMemberForm.tsx";
 
 const App = () => {
   return (
