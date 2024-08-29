@@ -108,7 +108,7 @@ const TeamMemberForm: React.FC = () => {
             onChange={handleChange}
             placeholder="Phone"
             required
-            pattern="^\+?[1-9]\d{1,14}$"
+            pattern="^\+?(\d{1,3})?[-.\s]?(\(?\d{1,4}\)?)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$"
           />
 
           <h3>Role</h3>
