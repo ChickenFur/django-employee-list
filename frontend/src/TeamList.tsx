@@ -5,16 +5,30 @@ import API from "./API.tsx";
 
 const TeamList: React.FC = () => {
   const [teamMembers, setTeamMembers] = useState<Member[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     API.teamMember
       .get()
       .then((response) => response.json())
-      .then((data: Member[]) => setTeamMembers(data))
+      .then((data: Member[]) => {
+        setTeamMembers(data);
+        setLoading(false);
+      })
       .catch((err) => {
         console.log(err);
       });
   }, []);
+
+  if (loading) {
+    return (
+      <div className="loading-container">
+        <div className="loading-div"></div>
+        <div className="loading-div"></div>
+        <div className="loading-div"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="list-page">
@@ -126,6 +140,7 @@ const TeamList: React.FC = () => {
         .team-member-link:hover {
           background-color: #f0f0f0;
         }
+        
       `}</style>
     </div>
   );

@@ -15,15 +15,20 @@ const TeamMemberForm: React.FC = () => {
     phone: "",
     role: "Regular",
   });
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     if (!isAddMode) {
+      setLoading(true);
       const memberId = location.pathname.split("/").pop();
       if (memberId) {
         API.teamMember
           .get(memberId)
           .then((response) => response.json())
-          .then((data) => setMember(data));
+          .then((data) => {
+            setMember(data);
+            setLoading(false);
+          });
       }
     }
   }, [isAddMode, location.pathname]);
@@ -49,6 +54,16 @@ const TeamMemberForm: React.FC = () => {
     }
   };
 
+  if (loading) {
+    return (
+      <div className="loading-container">
+        <div className="loading-div"></div>
+        <div className="loading-div"></div>
+        <div className="loading-div"></div>
+      </div>
+    );
+  }
+
   return (
     <div className="add-page">
       <h1>{isAddMode ? "Add" : "Edit"} page</h1>
@@ -63,6 +78,9 @@ const TeamMemberForm: React.FC = () => {
             value={member.firstName}
             onChange={handleChange}
             placeholder="First Name"
+            required
+            minLength={2}
+            maxLength={30}
           />
           <input
             type="text"
@@ -70,6 +88,9 @@ const TeamMemberForm: React.FC = () => {
             value={member.lastName}
             onChange={handleChange}
             placeholder="Last Name"
+            required
+            minLength={2}
+            maxLength={30}
           />
           <input
             type="email"
@@ -77,6 +98,8 @@ const TeamMemberForm: React.FC = () => {
             value={member.email}
             onChange={handleChange}
             placeholder="Email"
+            required
+            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
           />
           <input
             type="tel"
@@ -84,6 +107,8 @@ const TeamMemberForm: React.FC = () => {
             value={member.phone}
             onChange={handleChange}
             placeholder="Phone"
+            required
+            pattern="^\+?[1-9]\d{1,14}$"
           />
 
           <h3>Role</h3>
